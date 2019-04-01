@@ -7,3 +7,14 @@ int MaxNeed[][3]={{8,4,3},{6,2,0},{3,3,3}};
 int CurrentNeed[3][3];
 int SafetySeq[3];
 _Bool End[3]={0,0,0};
+
+int *AllocatedResv,*ResAllocl,*ProcessMx,*ProcessNd;
+
+void TableDisplay();
+int CheckingAlgorithm(int,int *);
+int RequestingAlgorithm(int,int *);
+_Bool SafeAlgorithm(int pid);
+void NeedCalculator();
+int SafeSeqCreate();
+void SafetySequenceDisplay();
+
