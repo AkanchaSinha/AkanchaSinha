@@ -48,4 +48,66 @@ int RequestingAlgorithm(int processID,int *REQ){
     for(i=0;i<m;i++){
         if(*(REQ+i)>*(ProcessNd+i))return 0;
         if(*(REQ+i)>*(AllocatedResv+i))return 0;
+    }
+    printf("Request is possible!\n");
+    for(i=0;i<m;i++){
+        *(ResAllocl+i)+=*(REQ+i);
+        *(AllocatedResv+i)-=*(REQ+i);
+        *(ProcessNd+i)-=*(REQ+i);
+    }
+    return 1;
+}
+_Bool SafeAlgorithm(int processID){
+    printf("Possible Process to Run: P%d\n",processID);
+    AllocatedResv=AvailableResources;
+    ResAllocl=AllocatedResources[processID];
+    for(i=0;i<3;i++){
+        *(AllocatedResv+i)+=*(ResAllocl+i);
+        *(ResAllocl+i)=0;
+        *(ProcessNd+i)=0;
+    }
+    return 1;
+}
+int SafeSeqCreate(){
+    int *W=AvailableResources,flag;
+    int *Sequence=SafetySeq,k=0,g=0;
+    _Bool *F=End;
+    for(i=0;i<10;i++){
+        k=i%3;
+        if(*(F+k)==1)
 
+continue;
+        ProcessNd=CurrentNeed[k];
+        flag=1;
+        printf("Need:");
+        for(j=0;j<3;j++){
+            printf(" %d",*(ProcessNd+j));
+            if(*(ProcessNd+j)>*(W+j))flag=0;
+        }
+        printf("\n");
+        if(flag==1){
+            *(F+k)=SafeAlgorithm(k);
+            *(Sequence+(g++))=k;
+            TableDisplay();        
+        }
+        else *(F+k)=0;
+        if(*(F)&*(F+1)&*(F+2)==1)return 1;
+    }
+    return 0;
+}
+void SafetySequenceDisplay(){
+    int *Sequence=SafetySeq,i;
+    printf("Safety Sequence:");
+    printf("<");for(i=0;i<3;i++)printf("%d,",*(Sequence+i));printf(">\n");
+}
+void NeedCalculator(){
+    int processID,i,j;
+    for(processID=0;processID<n;processID++){
+        ProcessNd=CurrentNeed[processID];
+        ResAllocl=AllocatedResources[processID];
+        ProcessMx=MaxNeed[processID];
+        for(i=0;i<m;i++){
+            *(ProcessNd+i)=*(ProcessMx+i)-*(ResAllocl+i);
+        }
+    }
+}
