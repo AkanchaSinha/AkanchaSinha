@@ -19,7 +19,7 @@ int SafeSeqCreate();
 void SafetySequenceDisplay();
 
 int main(){
-    printf("Welcome to Ratnabh's Program for Banker's Algorithm\n");
+    printf("Welcome\n");
     NeedCalculator();
     TableDisplay();
     int *REQ,Arr[3],prc;
@@ -110,4 +110,30 @@ void NeedCalculator(){
             *(ProcessNd+i)=*(ProcessMx+i)-*(ResAllocl+i);
         }
     }
+}
+void TableDisplay(){
+    int i,j;
+    printf("\nProcess\tMaximum\t\tAllocated\tNeed\t\tAvailable\n");
+      for(j=0;j<n;j++){
+        ResAllocl=AllocatedResources[j];
+        AllocatedResv=AvailableResources;
+        ProcessMx=MaxNeed[j];
+        ProcessNd=CurrentNeed[j];
+        printf("P%d\t",j);
+        for(i=0;i<m;i++){
+            printf("%d ",*(ProcessMx+i));
+        }
+        printf("\t\t");
+        for(i=0;i<m;i++){
+            printf("%d ",*(ResAllocl+i));
+        }
+        printf("\t\t");
+        for(i=0;i<m;i++){
+            printf("%d ",*(ProcessNd+i));
+        }
+        printf("\t\t");
+        printf("R%d: %d ",j,*(AllocatedResv+j));
+        printf("\n");
+    }
+    printf("\n");
 }
